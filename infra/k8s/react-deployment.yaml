@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: react-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react
+  template:
+    metadata:
+      labels:
+        app: react
+    spec:
+      containers:
+        - name: react
+          image: polaeskandar/blog-microservices-app-react:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: react-service
+spec:
+  selector:
+    app: react
+  type: ClusterIP
+  ports:
+    - name: react
+      protocol: TCP
+      port: 3000
+      targetPort: 3000

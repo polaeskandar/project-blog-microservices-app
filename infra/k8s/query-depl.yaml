@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: query-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: query
+  template:
+    metadata:
+      labels:
+        app: query
+    spec:
+      containers:
+        - name: query
+          image: polaeskandar/blog-microservices-app-query:latest
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: query-service
+spec:
+  selector:
+    app: query
+  type: ClusterIP
+  ports:
+    - name: query
+      protocol: TCP
+      port: 4004
+      targetPort: 4004
